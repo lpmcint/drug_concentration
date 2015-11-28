@@ -56,6 +56,32 @@ The ideas and code here are a combination of the OneCompartmentRepeated function
 #Running the Files#
 These models are written in Python and run in either Sage Notebooks or the Sage console. Note that extra packages may need to be installed to see the graphs if the models are run in Sage console. 
 
+#Math of Repeated Doses#
+Now that we have decent representations of drug concentration over time, it seems reasonable to ask, why do we see this odd leveling off behavior when taking repeated doses? Dosage is the same, and half-life is the same so is there a reason that concentration eventually levels off and becomes bounded above and below? The answer can be found in geometric series. Let Qn represent the quantity of drug in the system immediately after the nth tablet. Then let
+```
+Dose = 100mg
+Interval = 8 hours
+Absorption = 12%
+newDose = Dose*Absorption = 12mg
+elimination = -ln(0.5)/22 = .0315
+```
+After 8 hours the amount of drug in the system is 9.33 mg. Therefore 77.72% of the drug remains in the system. Then we have:
+```
+Q1 = 12 mg
+Q2 = (12)(.7772) + 12 = 21.33 mg 	(amount left in system plus another dose)
+Q3 = Q2(.7772) + 12
+      = (12)(.7772)^2 + (12)(.7772) + 12
+      = (12)((.7772)^2 + (.7772) + 1)
+      = 28.57 mg
+.
+.
+.
+
+Qn = (12)((.7772)^n-1 + … + (.7772)^2 + (.7772)^1 + (.7772)^0)
+
+       = 12 * (1 - (.7772)^n)/(1 – (.7771))
+```
+Therefore the amount of drug in the system immediately after the nth tablet can be expressed as a finite geometric series and this is why we see oscillation between an upper and lower bound. This is a very important concept when considering drug dose and the interval that the drug is taken in. It is necessary that the concentration of drug remain above the minimum therapeutic concentration so that a person will see the benefit of the medicine, but the concentration must also stay below a minimum toxic concentration to prevent severe negative side effects. By adjusting dose and/or interval for a medication the upper and lower bound of the geometric series can be altered to be between minimum therapeutic concentration and minimum toxic concentration.  
 
 
 
